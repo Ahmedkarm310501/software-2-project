@@ -3,36 +3,15 @@ package com.mycompany.non.trivial;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- *
- * @author lenovo
- */
 public class system {
-    
-//    private ArrayList<user> users = new ArrayList();
-//    private ArrayList<driver> drivers = new ArrayList();
+  
     private systemdata data=new systemdata();
     private menu menu;
     private admin adminuser;
 
     public system() {
     }
-//
-//    public ArrayList<user> getUsers() {
-//        return users;
-//    }
-//
-//    public void setUsers(ArrayList<user> Users) {
-//        this.users = Users;
-//    }
-//
-//    public ArrayList<driver> getDrivers() {
-//        return drivers;
-//    }
-//
-//    public void setDrivers(ArrayList<driver> drivers) {
-//        this.drivers = drivers;
-//    }
+
 
     public systemdata getData() {
         return data;
@@ -81,7 +60,7 @@ public class system {
             System.out.println("enter email");
             email = input.next();
 
-            for (user per : data.getUsers()) {////////////////////////////////////////////////////////////
+            for (user per : data.getUsers()) {
                 if (per.getEmail().equals(email)) {
                     System.out.println("this user already exist enter another email");
                     register();
@@ -89,7 +68,7 @@ public class system {
             }
 
             user User = new user(username, password, number, email, this);
-            data.getUsers().add(User);///////////////////////////////////////////
+            data.getUsers().add(User);
             System.out.println("User added please login");
             menu.main_menu();
         } else if (choice == 2) {
@@ -106,7 +85,7 @@ public class system {
             driving_licence = input.next();
             System.out.println("enter national_id");
             national_id = input.next();
-            for (driver per : data.getDrivers()) {/////////////////////////////////////////////////////
+            for (driver per : data.getDrivers()) {
                 if (per.getEmail().equals(email)) {
                     System.out.println("this user already exist enter another email");
                     register();
@@ -115,7 +94,7 @@ public class system {
 
             driver driver = new driver(username, password, number, email, driving_licence, national_id, this);
             this.adminuser.suspend_driver(driver);
-            data.getDrivers().add(driver);/////////////////////////////////////////////////////
+            data.getDrivers().add(driver);
             System.out.println("registeration success please wait until admin activate you");
             menu.main_menu();
         }else if(choice == 3){
@@ -140,7 +119,7 @@ public class system {
         System.out.println("enter password");
         password = input.next();
         if (choice.equals("1")) {
-            for (user user : data.getUsers()) {/////////////////////////////////////////////////////
+            for (user user : data.getUsers()) {
                 if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                     if (user.isStatus()) {
                         menu.user_menu(user);
@@ -155,7 +134,7 @@ public class system {
             System.out.println("wrong data");
             menu.main_menu();
         }else if(choice.equals("2")){
-            for (driver driver : data.getDrivers()) {/////////////////////////////////////////////////////
+            for (driver driver : data.getDrivers()) {
                 if (driver.getEmail().equals(email) && driver.getPassword().equals(password)) {
                     if (driver.isStatus()) {
                         menu.driver_menu(driver);
@@ -175,9 +154,6 @@ public class system {
 
     public void logout() {
         menu.main_menu();
-        ////////////////
-//        menu menu=new menu(){
-//            
-//        }
+
     }
 }

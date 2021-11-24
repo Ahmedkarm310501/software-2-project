@@ -100,12 +100,12 @@ public class menu {
         System.out.println("3-admin panel");
 
         Scanner input = new Scanner(System.in);
-        int choice = input.nextInt();
-        if (choice == 2) {
+        String choice = input.next();
+        if (choice.equals("2")) {
             system.register();
-        } else if (choice == 1) {
+        } else if (choice.equals("1") ) {
             system.login();
-        } else if (choice == 3) {
+        } else if (choice.equals("3") ) {
             login_admin();
         } else {
             System.out.println("worng choice");

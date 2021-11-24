@@ -1,8 +1,9 @@
 package com.mycompany.non.trivial;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class user extends person  implements Iuser{
+public class user extends person implements Iuser {
 
     ride ride;
 
@@ -48,8 +49,14 @@ public class user extends person  implements Iuser{
             String choice = input.next();
             if (choice.equals("1")) {
                 System.out.println("choose offer number");
-                int choic = input.nextInt();
-                accept_offer(choic);
+                try {
+                    int choic = input.nextInt();
+                    accept_offer(choic);
+                } catch (InputMismatchException e) {
+                    System.out.println("wrong choice");
+                    show_offers();
+
+                }
 
             } else if (choice.equals("2")) {
                 system.getMenu().user_menu(this);
@@ -66,11 +73,15 @@ public class user extends person  implements Iuser{
 
     @Override
     public void accept_offer(int offer_number) {
+        if (offer_number > this.ride.getOffers().size()|| offer_number - 1 < 0) {
+            System.out.println("wrong choice ");
+            show_offers();
+        }
         this.ride.setDriver(this.ride.getOffers().get(offer_number - 1).getDriver());
         this.ride.getDriver().getDriverdata().getAccepted_offers().add(ride);
         this.ride.setStatus(true);/////////delete
         this.ride.setPrice(this.ride.getOffers().get(offer_number - 1).getSuggested_price());
-        for (driver driver : this.system.getData().getDrivers()) {/////////////////////////////////////////////////////
+        for (driver driver : this.system.getData().getDrivers()) {
             driver.getDriverdata().getAll_requests().remove(this.ride);
             if (driver.getDriverdata().getRequests_in_favourites().contains(this.ride)) {
                 driver.getDriverdata().getRequests_in_favourites().remove(this.ride);
@@ -84,6 +95,7 @@ public class user extends person  implements Iuser{
         rate_driver(this.ride.getDriver());
     }
 
+    
     @Override
     public void rate_driver(driver driver) {
         System.out.println("choose rate the driver from 1 to 5 star");
@@ -92,7 +104,6 @@ public class user extends person  implements Iuser{
         if (!(rating == 1 || rating == 2 || rating == 3 || rating == 4 || rating == 5)) {
             rate_driver(driver);
         }
-        //this.ride.getDriver().getUsers_rating().add(rating);
         this.ride.setRate(rating);
         system.getMenu().user_menu(this);
     }

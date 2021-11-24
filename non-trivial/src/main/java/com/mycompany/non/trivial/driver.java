@@ -1,10 +1,13 @@
 package com.mycompany.non.trivial;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class driver extends person {
-    private driverdata driverdata=new driverdata();
+
+    private driverdata driverdata = new driverdata();
     private String driving_licence;
     private String national_id;
 
@@ -15,44 +18,8 @@ public class driver extends person {
     public void setDriverdata(driverdata driverdata) {
         this.driverdata = driverdata;
     }
-//    private ArrayList<ride> all_requests = new ArrayList();
-//    private ArrayList<ride> requests_in_favourites = new ArrayList();
-//    private ArrayList<String> favourite_areas = new ArrayList();
-//    private ArrayList<ride> accepted_offers = new ArrayList();
-//    private ArrayList<Float> users_rating = new ArrayList();
-    private ride ride;
 
-//    public ArrayList<Float> getUsers_rating() {
-//        return users_rating;
-//    }
-//
-//    public void setUsers_rating(ArrayList<Float> users_rating) {
-//        this.users_rating = users_rating;
-//    }
-//
-//    public ArrayList<ride> getAccepted_offers() {
-//        return accepted_offers;
-//    }
-//
-//    public void setAccepted_offers(ArrayList<ride> accepted_offers) {
-//        this.accepted_offers = accepted_offers;
-//    }
-//
-//    public ArrayList<ride> getRequests_in_favourites() {
-//        return requests_in_favourites;
-//    }
-//
-//    public void setRequests_in_favourites(ArrayList<ride> requests_in_favourites) {
-//        this.requests_in_favourites = requests_in_favourites;
-//    }
-//
-//    public ArrayList<ride> getAll_requests() {
-//        return all_requests;
-//    }
-//
-//    public void setAll_requests(ArrayList<ride> all_requests) {
-//        this.all_requests = all_requests;
-//    }
+    private ride ride;
 
     public driver(String driving_licence, String national_id, String username, String password, String number, String email, system system) {
         super(username, password, number, email, system);
@@ -75,14 +42,6 @@ public class driver extends person {
     public void setNational_id(String national_id) {
         this.national_id = national_id;
     }
-//
-//    public ArrayList<String> getFavourite_areas() {
-//        return favourite_areas;
-//    }
-//
-//    public void setFavourite_areas(ArrayList<String> favourite_areas) {
-//        this.favourite_areas = favourite_areas;
-//    }
 
     public void show_all_requests(String type) {
         if (!this.driverdata.getAll_requests().isEmpty()) {
@@ -114,8 +73,15 @@ public class driver extends person {
             String choice = input.next();
             if (choice.equals("1")) {
                 System.out.println("enter ride number ");
-                int choic = input.nextInt();
-                add_offer(choic,type);
+                try {
+                    int choic = input.nextInt();
+                    add_offer(choic, type);
+                } catch (InputMismatchException e) {
+                    System.out.println("wrong choice");
+                    show_all_requests(type);
+                    
+                }
+
             } else if (choice.equals("2")) {
                 system.getMenu().driver_menu(this);
             } else {
@@ -129,12 +95,15 @@ public class driver extends person {
 
     }
 
-
-
-    public void add_offer(int ride_number,String type) {
-        if(type.equals("all")){
+    public void add_offer(int ride_number, String type) {
+        if(ride_number>this.driverdata.getAll_requests().size()||ride_number-1<0){//////////
+            System.out.println("wrong choice ");
+            show_all_requests(type);///////////////////
+            
+        }
+        if (type.equals("all")) {
             ride = this.driverdata.getAll_requests().get(ride_number - 1);
-        }else if(type.equals("favourite")){
+        } else if (type.equals("favourite")) {
             ride = this.driverdata.getRequests_in_favourites().get(ride_number - 1);
         }
         System.out.println("Enter suggested price");

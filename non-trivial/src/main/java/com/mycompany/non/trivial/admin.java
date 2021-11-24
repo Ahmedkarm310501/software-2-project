@@ -1,7 +1,5 @@
 package com.mycompany.non.trivial;
 
-import java.util.ArrayList;
-
 public class admin {
     private admindata admindata=new admindata();
 
@@ -14,19 +12,8 @@ public class admin {
     }
     private String ID;
     private String password;
-//    private ArrayList<driver> pending_drivers = new ArrayList();
-//    private ArrayList<person> suspended_users = new ArrayList();
     private system system;
 
-//    public ArrayList<person> getSuspended_users() {
-//        return suspended_users;
-//    }
-//
-//    public void setSuspended_users(ArrayList<person> suspended_users) {
-//        this.suspended_users = suspended_users;
-//    }
-
-    //private menu menu;
 
     public system getSystem() {
         return system;
@@ -57,13 +44,7 @@ public class admin {
         this.password = password;
     }
 
-//    public ArrayList<driver> getPending_drivers() {
-//        return pending_drivers;
-//    }
-//
-//    public void setPending_drivers(ArrayList<driver> pending_drivers) {
-//        this.pending_drivers = pending_drivers;
-//    }
+
 
     public void suspend_driver(driver person) {
         person.setStatus(false);
