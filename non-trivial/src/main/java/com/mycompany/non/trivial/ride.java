@@ -9,6 +9,16 @@ public class ride {
     private float price;
     private user user;
     private boolean status=false;
+    private float rate;
+    private driver driver;
+    private ArrayList<offer> offers = new ArrayList();
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
+    }
 
     public boolean isStatus() {
         return status;
@@ -17,8 +27,7 @@ public class ride {
     public void setStatus(boolean status) {
         this.status = status;
     }
-    private driver driver;//list of drivers
-    private ArrayList<offer> offers = new ArrayList();
+
 //    private ArrayList<ride> all_requests= new ArrayList(); 
 
 //    private offer offer;

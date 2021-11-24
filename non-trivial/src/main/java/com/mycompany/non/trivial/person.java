@@ -9,7 +9,7 @@ public abstract class person {
     private String email;
     protected boolean status=true;
     protected system system;
-    protected notify notifications;
+    protected notify notifications=new notify();
 
     public notify getNotifications() {
         return notifications;
@@ -19,11 +19,6 @@ public abstract class person {
         this.notifications = notifications;
     }
 
-
-
-
-    
-    
     public person() {
     }
 

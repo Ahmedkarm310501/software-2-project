@@ -8,31 +8,38 @@ import java.util.Scanner;
  * @author lenovo
  */
 public class system {
-
-    private ArrayList<user> users = new ArrayList();
-    private ArrayList<driver> drivers = new ArrayList();
-
+    
+//    private ArrayList<user> users = new ArrayList();
+//    private ArrayList<driver> drivers = new ArrayList();
+    private systemdata data=new systemdata();
     private menu menu;
-//    private ArrayList<person> persons = new ArrayList();
     private admin adminuser;
 
     public system() {
     }
+//
+//    public ArrayList<user> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(ArrayList<user> Users) {
+//        this.users = Users;
+//    }
+//
+//    public ArrayList<driver> getDrivers() {
+//        return drivers;
+//    }
+//
+//    public void setDrivers(ArrayList<driver> drivers) {
+//        this.drivers = drivers;
+//    }
 
-    public ArrayList<user> getUsers() {
-        return users;
+    public systemdata getData() {
+        return data;
     }
 
-    public void setUsers(ArrayList<user> Users) {
-        this.users = Users;
-    }
-
-    public ArrayList<driver> getDrivers() {
-        return drivers;
-    }
-
-    public void setDrivers(ArrayList<driver> drivers) {
-        this.drivers = drivers;
+    public void setData(systemdata data) {
+        this.data = data;
     }
 
     public system(menu menu, admin adminuser) {
@@ -60,6 +67,7 @@ public class system {
         System.out.println("choose from the following");
         System.out.println("1-User");
         System.out.println("2-Driver");
+        System.out.println("3-go back");
         Scanner input = new Scanner(System.in);
         int choice = input.nextInt();
         if (choice == 1) {
@@ -73,7 +81,7 @@ public class system {
             System.out.println("enter email");
             email = input.next();
 
-            for (user per : users) {
+            for (user per : data.getUsers()) {////////////////////////////////////////////////////////////
                 if (per.getEmail().equals(email)) {
                     System.out.println("this user already exist enter another email");
                     register();
@@ -81,7 +89,7 @@ public class system {
             }
 
             user User = new user(username, password, number, email, this);
-            users.add(User);
+            data.getUsers().add(User);///////////////////////////////////////////
             System.out.println("User added please login");
             menu.main_menu();
         } else if (choice == 2) {
@@ -98,7 +106,7 @@ public class system {
             driving_licence = input.next();
             System.out.println("enter national_id");
             national_id = input.next();
-            for (driver per : drivers) {
+            for (driver per : data.getDrivers()) {/////////////////////////////////////////////////////
                 if (per.getEmail().equals(email)) {
                     System.out.println("this user already exist enter another email");
                     register();
@@ -107,8 +115,10 @@ public class system {
 
             driver driver = new driver(username, password, number, email, driving_licence, national_id, this);
             this.adminuser.suspend_driver(driver);
-            drivers.add(driver);
+            data.getDrivers().add(driver);/////////////////////////////////////////////////////
             System.out.println("registeration success please wait until admin activate you");
+            menu.main_menu();
+        }else if(choice == 3){
             menu.main_menu();
         }
 
@@ -120,13 +130,17 @@ public class system {
         System.out.println("1-Login as User");
         System.out.println("2-Login as Driver");
         String choice = input.next();
+        if(!(choice.equals("1")||choice.equals("2"))){
+            System.out.println("wrong choice");
+            menu.main_menu();
+        }
         String email, password;
         System.out.println("enter email");
         email = input.next();
         System.out.println("enter password");
         password = input.next();
         if (choice.equals("1")) {
-            for (user user : users) {
+            for (user user : data.getUsers()) {/////////////////////////////////////////////////////
                 if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                     if (user.isStatus()) {
                         menu.user_menu(user);
@@ -141,7 +155,7 @@ public class system {
             System.out.println("wrong data");
             menu.main_menu();
         }else if(choice.equals("2")){
-            for (driver driver : drivers) {
+            for (driver driver : data.getDrivers()) {/////////////////////////////////////////////////////
                 if (driver.getEmail().equals(email) && driver.getPassword().equals(password)) {
                     if (driver.isStatus()) {
                         menu.driver_menu(driver);
@@ -161,5 +175,9 @@ public class system {
 
     public void logout() {
         menu.main_menu();
+        ////////////////
+//        menu menu=new menu(){
+//            
+//        }
     }
 }

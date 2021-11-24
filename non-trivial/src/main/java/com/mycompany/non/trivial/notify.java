@@ -17,8 +17,10 @@ public class notify {
     }
     
     public void show_noitifications(){
-        for(String message:notification){
+        for(String message: notification){
             System.out.println(message);
         }
+        this.notification.clear();
+
     }
 }

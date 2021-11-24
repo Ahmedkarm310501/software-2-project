@@ -5,25 +5,7 @@ import java.util.Scanner;
 public class menu {
 
     private system system;
-//    private user user;
-//    private driver driver;
-//
-//    public user getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(user user) {
-//        this.user = user;
-//    }
-//
-//    public driver getDriver() {
-//        return driver;
-//    }
-//
-//    public void setDriver(driver driver) {
-//        this.driver = driver;
-//    }
-//    
+
 
     public menu() {
     }
@@ -41,6 +23,11 @@ public class menu {
     }
 
     public void user_menu(user user) {
+        if (!user.getNotifications().getNotification().isEmpty()) {
+            System.out.println("you have " + user.notifications.getNotification().size() + " offers");
+        } else {
+            System.out.println("you have no notify");
+        }
         System.out.println("hello " + user.getUsername());
         System.out.println("user menu");
         System.out.println("1-logut");
@@ -48,31 +35,29 @@ public class menu {
         System.out.println("3-show offers ");
         Scanner input = new Scanner(System.in);
         String in = input.next();
-        //user test=(user)user;
         if (in.equals("1")) {
             system.logout();
         } else if (in.equals("2")) {
             System.out.println("enter Source");
-            String source=input.next();
+            String source = input.next();
             System.out.println("enter destenation");
-            String destenation=input.next();
+            String destenation = input.next();
             user.request_aride(source, destenation);
             user_menu(user);
-     
-        }else if (in.equals("3")) {
+
+        } else if (in.equals("3")) {
             user.show_offers();
             user_menu(user);//delete
-        }
-        else {
+        } else {
             System.out.println("wrong choice");
             user_menu(user);
         }
     }
 
     public void driver_menu(driver driver) {
-        if(driver.notifications.getNotification()!=null){
-            System.out.println("you have "+driver.notifications.getNotification().size()+" notifications");
-        }else{
+        if (!driver.getNotifications().getNotification().isEmpty()) {
+            System.out.println("you have " + driver.notifications.getNotification().size() + " notifications");
+        } else {
             System.out.println("you have no notify");
         }
         System.out.println("hello " + driver.getUsername());
@@ -80,18 +65,30 @@ public class menu {
         System.out.println("1-logut");
         System.out.println("2-show all requests");
         System.out.println("3-show notificatoins");
+        System.out.println("4-show users rating");
+        System.out.println("5-add favourite area");
+        System.out.println("6-show all requests for favourite areas");
         Scanner input = new Scanner(System.in);
         String in = input.next();
-        //driver test =(driver)driver;
         if (in.equals("1")) {
             system.logout();
-        }
-        else if(in.equals("2")){
-            driver.show_all_requests();
-        }else if(in.equals("3")){
+        } else if (in.equals("2")) {
+            driver.show_all_requests("all");
+        } else if (in.equals("3")) {
             driver.getNotifications().show_noitifications();
             driver_menu(driver);
-        }else {
+        }
+        else if (in.equals("4")) {
+            driver.show_users_rating();
+            driver_menu(driver);
+        }else if (in.equals("5")) {
+            driver.add_favourite_area();
+            driver_menu(driver);
+        }else if (in.equals("6")) {
+            driver.show_all_requests("favourite");
+            driver_menu(driver);
+        }
+        else {
             System.out.println("wrong choice");
             driver_menu(driver);
         }
@@ -163,7 +160,5 @@ public class menu {
             System.out.println("wrong choice");
             admin_panal();
         }
-
     }
-
 }
