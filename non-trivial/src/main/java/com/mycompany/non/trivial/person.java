@@ -9,7 +9,7 @@ public abstract class person {
     private String email;
     protected boolean status=true;
     protected system system;
-    protected notify notifications=new notify();
+    protected notify notifications;
 
     public notify getNotifications() {
         return notifications;

@@ -70,7 +70,7 @@ public class menu {
     }
 
     public void driver_menu(driver driver) {
-        if(!driver.getNotifications().getNotification().isEmpty()){
+        if(driver.notifications.getNotification()!=null){
             System.out.println("you have "+driver.notifications.getNotification().size()+" notifications");
         }else{
             System.out.println("you have no notify");
@@ -163,5 +163,7 @@ public class menu {
             System.out.println("wrong choice");
             admin_panal();
         }
+
     }
+
 }

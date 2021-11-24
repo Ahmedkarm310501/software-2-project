@@ -52,8 +52,7 @@ public class user extends person {//implements notify
         this.ride.setDriver(this.ride.getOffers().get(offer_number-1).getDriver());
         this.ride.getDriver().getAccepted_offers().add(ride);
         String message="Your offer from "+this.getUsername()+" accepted ";
-        this.ride.getDriver().notifications.getNotification().add(message);
-        //this.notifications.getNotification().add(message);
+        this.notifications.getNotification().add(message);
         //this.ride.getDriver().getNotification().add(message);
         System.out.println("please wait driver to begin your ride");
     }

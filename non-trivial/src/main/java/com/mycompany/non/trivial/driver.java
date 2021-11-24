@@ -107,9 +107,7 @@ public class driver extends person {
         Scanner input = new Scanner(System.in);
         String choice = input.next();
         if (choice.equals("1")) {
-            System.out.println("enter ride number ");
-            int choic = input.nextInt();
-            add_offer(choic);
+            add_offer(counter);
         } else if (choice.equals("2")) {
             system.getMenu().driver_menu(this);
         } else {
