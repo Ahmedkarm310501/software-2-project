@@ -2,7 +2,7 @@ package com.mycompany.non.trivial;
 
 import java.util.ArrayList;
 
-public class driverdata implements database{
+public class driverdata {
 
     private ArrayList<ride> all_requests = new ArrayList();
     private ArrayList<ride> requests_in_favourites = new ArrayList();
@@ -14,6 +14,8 @@ public class driverdata implements database{
         return all_requests;
     }
 
+    
+    
     public void setAll_requests(ArrayList<ride> all_requests) {
         this.all_requests = all_requests;
     }

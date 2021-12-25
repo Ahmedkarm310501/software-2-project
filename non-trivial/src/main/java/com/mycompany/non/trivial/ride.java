@@ -12,6 +12,15 @@ public class ride {
     private float rate;
     private driver driver;
     private ArrayList<offer> offers = new ArrayList();
+
+    public ride() {
+    }
+    
+    public ride(String source, String destenation) {
+        this.source = source;
+        this.destenation = destenation;
+    }
+        
     public float getRate() {
         return rate;
     }
@@ -28,9 +37,7 @@ public class ride {
         this.status = status;
     }
 
-//    private ArrayList<ride> all_requests= new ArrayList(); 
 
-//    private offer offer;
 
     public ArrayList<offer> getOffers() {
         return offers;
@@ -56,15 +63,9 @@ public class ride {
         this.driver = driver;
     }
 
-//    public ArrayList<ride> getAll_requests() {
-//        return all_requests;
-//    }
-//
-//    public void setAll_requests(ArrayList<ride> all_requests) {
-//        this.all_requests = all_requests;
-//    }
 
-    //-rate:float
+
+   
 
     public String getSource() {
         return source;
@@ -90,18 +91,19 @@ public class ride {
         this.price = price;
     }
 
-    public ride(String source, String destenation) {
-        this.source = source;
-        this.destenation = destenation;
-    }
-//    public void add_requset(ride ride){
-//        this.all_requests.add(ride);
-//        System.out.println("size of requests in ride "+this.all_requests.size());
+//    public void request_aride(user user, String source, String destination) {
+//
+//        ride ride = new ride(source, destination);
+//        ride.setUser(user);
+//        for (driver driver : user.system.getData().getDrivers()) {
+//            driver.add_requset(ride);
+//            if (driver.getDriverdata().getFavourite_areas().contains(source)) {
+//                driver.getDriverdata().getRequests_in_favourites().add(ride);///////new
+//                String message = " you have a request for one of your favourite areas (" + source + ")";
+//                driver.getNotifications().getNotification().add(message);
+//            }
+//        }
+//        System.out.println("request added please wait any driver to accept your request");
 //    }
-    
-//    public void add_offer(float price){
-//        offer new_offer =new offer();
-//        this.offers.add(new_offer);
-//        new_offer.setSuggested_price(price);
-//    }
+
 }

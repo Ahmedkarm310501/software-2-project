@@ -1,6 +1,4 @@
-package com.mycompany.non.trivial;
-
-import java.util.ArrayList;
+ package com.mycompany.non.trivial;
 
 public abstract class person {
     private String username;
@@ -9,7 +7,7 @@ public abstract class person {
     private String email;
     protected boolean status=true;
     protected system system;
-    protected notify notifications=new notify();
+    protected notify notifications=new notify();///////////////////
 
     public notify getNotifications() {
         return notifications;

@@ -3,7 +3,7 @@ package com.mycompany.non.trivial;
 
 import java.util.ArrayList;
 
-public class systemdata implements database {
+public class systemdata {
     private ArrayList<user> users = new ArrayList();
     private ArrayList<driver> drivers = new ArrayList();
 

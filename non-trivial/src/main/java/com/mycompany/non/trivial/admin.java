@@ -51,70 +51,50 @@ public class admin {
         this.admindata.getPending_drivers().add(person);
     }
 
-    public void list_suspended_drivers() {
-        int counter = 1;
-        for (driver driver : this.admindata.getPending_drivers()) {
-            System.out.println("User " + counter + "-->" + driver.getEmail());
-            counter++;
-        }
-        this.system.getMenu().admin_panal();
+    
 
-    }
-
-    public void activate_driver(String email) {
+    public boolean activate_driver(String email) {
         for (driver driver : this.admindata.getPending_drivers()) {
             if (driver.getEmail().equals(email)) {
                 driver.setStatus(true);
                 this.admindata.getPending_drivers().remove(driver);
-                System.out.println("User activated");
-                this.system.getMenu().admin_panal();
+                return true;
+//                this.system.getMenu().admin_panal();
             }
         }
-        System.out.println("wrong email");
-        this.system.getMenu().admin_panal();
+        return false;
+//        this.system.getMenu().admin_panal();
     }
 
-    public void suspend_person(String email) {
+    public boolean suspend_person(String email) {
         for (user user :system.getData().getUsers() ){/////////////////////////////////////////////////////
             if(user.getEmail().equals(email)){
                 this.admindata.getSuspended_users().add(user);
                 user.setStatus(false);
-                System.out.println("User Suspended");
-                system.getMenu().admin_panal();
+                return true;
             }
         }
+        
         for (driver driver :system.getData().getDrivers() ){/////////////////////////////////////////////////////
             if(driver.getEmail().equals(email)){
                 this.admindata.getSuspended_users().add(driver);
                 driver.setStatus(false);
-                System.out.println("User Suspended");
-                system.getMenu().admin_panal();
+                return true;
             }
         }
-        System.out.println("User not found");
-        system.getMenu().admin_panal();
+        return false;
     }
 
-    public void list_suspended_users() {
-        int counter = 1;
-        for (person person : this.admindata.getSuspended_users()) {
-            System.out.println("User " + counter + "-->" + person.getEmail());
-            counter++;
-        }
-        system.getMenu().admin_panal();
 
-    }
 
-    public void activate_user(String email) {
+    public boolean activate_user(String email) {
         for (person person : this.admindata.getSuspended_users()) {
             if (person.getEmail().equals(email)) {
                 person.setStatus(true);
                 this.admindata.getSuspended_users().remove(person);
-                System.out.println("User activated");
-                this.system.getMenu().admin_panal();
+                return true;
             }
         }
-        System.out.println("wrong email");
-        this.system.getMenu().admin_panal();
+        return false;
     }
 }

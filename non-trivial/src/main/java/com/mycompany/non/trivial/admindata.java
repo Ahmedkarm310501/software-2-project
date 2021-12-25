@@ -2,7 +2,7 @@ package com.mycompany.non.trivial;
 
 import java.util.ArrayList;
 
-public class admindata implements database{
+public class admindata {
     private ArrayList<driver> pending_drivers = new ArrayList();
     private ArrayList<person> suspended_users = new ArrayList();
 

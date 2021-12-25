@@ -1,10 +1,7 @@
 package com.mycompany.non.trivial;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
+ 
 public class driver extends person {
 
     private driverdata driverdata = new driverdata();
@@ -20,6 +17,14 @@ public class driver extends person {
     }
 
     private ride ride;
+
+    public ride getRide() {
+        return ride;
+    }
+
+    public void setRide(ride ride) {
+        this.ride = ride;
+    }
 
     public driver(String driving_licence, String national_id, String username, String password, String number, String email, system system) {
         super(username, password, number, email, system);
@@ -43,95 +48,12 @@ public class driver extends person {
         this.national_id = national_id;
     }
 
-    public void show_all_requests(String type) {
-        if (!this.driverdata.getAll_requests().isEmpty()) {
-            int counter = 1;
-            if (type.equals("all")) {
-                for (ride ride : this.driverdata.getAll_requests()) {
-                    System.out.println("===============================================");
-                    System.out.println("request " + counter + " by user " + ride.getUser().getUsername());
-                    System.out.println(" from " + ride.getSource() + " to " + ride.getDestenation());
-                    System.out.println("===============================================");
-                    counter++;
-                }
-            } else if (type.equals("favourite")) {
-                for (ride ride : this.driverdata.getRequests_in_favourites()) {
-                    if (this.driverdata.getFavourite_areas().contains(ride.getSource())) {
-                        System.out.println("===============================================");
-                        System.out.println("request " + counter + " by user " + ride.getUser().getUsername());
-                        System.out.println(" from " + ride.getSource() + " to " + ride.getDestenation());
-                        System.out.println("===============================================");
-                        counter++;
-                    }
-                }
-            }
-
-            System.out.println("=======================================================");
-            System.out.println("1-choose aride");
-            System.out.println("2-go back");
-            Scanner input = new Scanner(System.in);
-            String choice = input.next();
-            if (choice.equals("1")) {
-                System.out.println("enter ride number ");
-                try {
-                    int choic = input.nextInt();
-                    add_offer(choic, type);
-                } catch (InputMismatchException e) {
-                    System.out.println("wrong choice");
-                    show_all_requests(type);
-                    
-                }
-
-            } else if (choice.equals("2")) {
-                system.getMenu().driver_menu(this);
-            } else {
-                System.out.println("wrong choice");
-                show_all_requests(type);
-            }
-        } else {
-            System.out.println("there id no requests");
-            system.getMenu().driver_menu(this);
-        }
-
-    }
-
-    public void add_offer(int ride_number, String type) {
-        if(ride_number>this.driverdata.getAll_requests().size()||ride_number-1<0){//////////
-            System.out.println("wrong choice ");
-            show_all_requests(type);///////////////////
-            
-        }
-        if (type.equals("all")) {
-            ride = this.driverdata.getAll_requests().get(ride_number - 1);
-        } else if (type.equals("favourite")) {
-            ride = this.driverdata.getRequests_in_favourites().get(ride_number - 1);
-        }
-        System.out.println("Enter suggested price");
-        Scanner input = new Scanner(System.in);
-        float suggested_price = input.nextFloat();
-        /////////////////////////////////
-        offer new_offer = new offer(suggested_price, this, this.ride.getUser());
-        ArrayList<offer> offers = this.ride.getOffers();
-        offers.add(new_offer);
-        this.ride.setOffers(offers);
-
-        System.out.println("please wait user to accept your offer");
-        String message = "You have new offers";
-        this.ride.getUser().notifications.getNotification().add(message);
-        system.getMenu().driver_menu(this);
-
-    }
 
     public void add_requset(ride ride) {
         this.driverdata.getAll_requests().add(ride);
     }
 
-    public void show_users_rating() {
-        for (ride rate : this.driverdata.getAccepted_offers()) {
-            System.out.println("User " + rate.getUser().getUsername() + " rating : " + rate.getRate());
-        }
-        system.getMenu().driver_menu(this);
-    }
+
 
     public float averege_rating() {
         float avg = 0;
@@ -142,10 +64,7 @@ public class driver extends person {
         return avg;
     }
 
-    public void add_favourite_area() {
-        System.out.println("enter area name");
-        Scanner in = new Scanner(System.in);
-        String name = in.next();
+    public void add_favourite_area(String name) {
         this.driverdata.getFavourite_areas().add(name);
     }
 
