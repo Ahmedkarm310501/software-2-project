@@ -12,7 +12,15 @@ public class ride {
     private float rate;
     private driver driver;
     private ArrayList<offer> offers = new ArrayList();
+    private ArrayList<event> events = new ArrayList();
 
+    public ArrayList<event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(ArrayList<event> events) {
+        this.events = events;
+    }
     public ride() {
     }
     

@@ -1,7 +1,6 @@
  package com.mycompany.non.trivial;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+
 
 public class user extends person {
 
@@ -19,6 +18,7 @@ public class user extends person {
 
         ride = new ride(source, destination);
         ride.setUser(this);
+        system.getAdminuser().getAdmindata().getAll_rides().add(ride);
         for (driver driver : this.system.getData().getDrivers()) {
             driver.add_requset(ride);
             if (driver.getDriverdata().getFavourite_areas().contains(source)) {

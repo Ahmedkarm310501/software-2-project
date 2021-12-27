@@ -5,7 +5,16 @@ import java.util.ArrayList;
 public class admindata {
     private ArrayList<driver> pending_drivers = new ArrayList();
     private ArrayList<person> suspended_users = new ArrayList();
+    private ArrayList<ride> all_rides = new ArrayList();
 
+    public ArrayList<ride> getAll_rides() {
+        return all_rides;
+    }
+
+    public void setAll_rides(ArrayList<ride> all_rides) {
+        this.all_rides = all_rides;
+    }
+    
     public ArrayList<driver> getPending_drivers() {
         return pending_drivers;
     }
@@ -24,5 +33,7 @@ public class admindata {
 
     public admindata() {
     }
+    
+ 
     
 }

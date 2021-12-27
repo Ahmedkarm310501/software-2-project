@@ -1,6 +1,11 @@
 package com.mycompany.non.trivial;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -247,6 +252,8 @@ public class main {
         System.out.println("4-list susbended users");
         System.out.println("5-Suspend user");
         System.out.println("6-Activate User");
+        System.out.println("7-Show all rides");
+        System.out.println("8-show event on ride");
         Scanner input = new Scanner(System.in);
         String in = input.next();
         if (in.equals("1")) {
@@ -267,7 +274,15 @@ public class main {
             System.out.println("enter user email");
             String email = input.next();
             activate_user(email);
-        } else {
+        }else if(in.equals("7")){
+            get_all_rides();
+            
+        }else if(in.equals("8")){
+            System.out.println("enter ride number");
+            int ride_number=input.nextInt();
+            show_events_on_ride(ride_number);
+        }
+        else {
             System.out.println("wrong choice");
             admin_panal();
         }
@@ -317,6 +332,47 @@ public class main {
             System.out.println("wrong email");
         admin_panal();
     }
+    
+    public void get_all_rides(){
+        int counter = 1;
+        for (ride ride : this.admin.getAdmindata().getAll_rides()) {
+            System.out.print("Ride " + counter + "by user " + ride.getUser().getUsername());
+            if(ride.getDriver()!=null){
+                System.out.print(" from driver "+ride.getDriver().getUsername());
+            }else{
+                System.out.print(" no driver until now ");
+            }
+            System.out.println(" from "+ride.getSource()+" to "+ride.getDestenation());
+            counter++;
+        }
+        admin_panal();
+    }
+    
+    public void show_events_on_ride(int ride_number){
+        int counter = 1;
+        for (event event : this.admin.getAdmindata().getAll_rides().get(ride_number-1).getEvents()) {
+            if(event.getName().equals("Driver put a price")){
+                System.out.println("event " + counter  + event.getName()+" event time "+event.getTime()+
+                    " from driver "+event.getDriver_name()+" price "+event.getPrice());
+            }else if(event.getName().equals("User accepts the driver price")){
+                System.out.println("event " + counter  + event.getName()+" event time "+event.getTime()+
+                    "User Name "+event.getUser_name());
+                
+            }else if(event.getName().equals("Captain arrived to user location")){
+                System.out.println("event " + counter  + event.getName()+" event time "+event.getTime()+
+                    " Driver "+event.getDriver_name()+" User name "+event.getUser_name());
+                
+            }else if(event.getName().equals("Captain arrived to user destination")){
+                System.out.println("event " + counter  + event.getName()+" event time "+event.getTime()+
+                    " Driver "+event.getDriver_name()+" User name "+event.getUser_name());
+            }
+            counter++;
+        }
+        admin_panal();
+    }
+    
+    
+    
     //////////////////////////////////
     
     /////////driver/////////////////
@@ -381,6 +437,7 @@ public class main {
         }
         if (type.equals("all")) {
             driver.setRide( driver.getDriverdata().getAll_requests().get(ride_number - 1));
+            
         } else if (type.equals("favourite")) {
             driver.setRide( driver.getDriverdata().getRequests_in_favourites().get(ride_number - 1));
         }
@@ -392,6 +449,14 @@ public class main {
         ArrayList<offer> offers = driver.getRide().getOffers();
         offers.add(new_offer);
         driver.getRide().setOffers(offers);
+        String event_name="Driver put a price";
+        String event_time=get_time();
+        ride ride=driver.getDriverdata().getAll_requests().get(ride_number - 1);
+        
+        event event=new event(event_name,event_time,ride,driver.getUsername(),ride.getUser().getUsername(),suggested_price);
+        int index=system.getAdminuser().getAdmindata().getAll_rides().indexOf(ride);
+        
+        system.getAdminuser().getAdmindata().getAll_rides().get(index).getEvents().add(event);
 
         System.out.println("please wait user to accept your offer");
         String message = "You have new offers";
@@ -481,9 +546,28 @@ public class main {
         String message = "Your offer from " + user.getUsername() + " accepted ";
         user.getRide().getDriver().notifications.getNotification().add(message);
         System.out.println("thank you for choosen us please rate the driver");
+        /////////////////
+        String event_name1="User accepts the driver price";
+        String time1=get_time();
+        event event1=new event(event_name1,time1,user.getUsername());
+        int index1=system.getAdminuser().getAdmindata().getAll_rides().indexOf(user.getRide());
+        system.getAdminuser().getAdmindata().getAll_rides().get(index1).getEvents().add(event1);
+        //////////////////////
+        String event_name2="Captain arrived to user location";
+        String time2=get_time();
+        event event2=new event(event_name2,time2,user.getRide().getDriver().getUsername(),user.getUsername());
+        int index2=system.getAdminuser().getAdmindata().getAll_rides().indexOf(user.getRide());
+        system.getAdminuser().getAdmindata().getAll_rides().get(index2).getEvents().add(event2);
+        
+        ////////////////////////////////////////
+        String event_name3="Captain arrived to user destination";
+        String time3=get_time1();
+        event event3=new event(event_name3,time3,user.getRide().getDriver().getUsername(),user.getUsername());
+        int index3=system.getAdminuser().getAdmindata().getAll_rides().indexOf(user.getRide());
+        system.getAdminuser().getAdmindata().getAll_rides().get(index3).getEvents().add(event3);
         rate_driver(user.getRide().getDriver(),user);
     }
-    
+
     
     public void rate_driver(driver driver,user user) {
         System.out.println("choose rate the driver from 1 to 5 star");
@@ -497,8 +581,25 @@ public class main {
     }
     
     ///////////////////////////////
+    String get_time(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());                   
+        Date date=(cal.getTime()); 
+        String d=date.toString();
+        return d;
+    }
+    
+    String get_time1(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());               
+        cal.add(Calendar.HOUR_OF_DAY, 1);      
+        Date date=(cal.getTime()); 
+        String d=date.toString();
+        return d;
+    }
     
     public static void main(String[]args){
+        
         main main=new main();
         main.main_menu();
         
