@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class ride {
     private String source;
     private String destenation;
-    private float price;
+    private double price;
     private user user;
     private boolean status=false;
     private float rate;
@@ -91,11 +91,11 @@ public class ride {
         this.destenation = destenation;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

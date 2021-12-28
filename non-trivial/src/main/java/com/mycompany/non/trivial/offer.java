@@ -1,7 +1,7 @@
 package com.mycompany.non.trivial;
 
 public class offer {
-    private float suggested_price;
+    private double suggested_price;
     private driver driver;
     private user user;
 
@@ -15,11 +15,11 @@ public class offer {
         this.user = user;
     }
 
-    public float getSuggested_price() {
+    public double getSuggested_price() {
         return suggested_price;
     }
 
-    public void setSuggested_price(float suggested_price) {
+    public void setSuggested_price(double suggested_price) {
         this.suggested_price = suggested_price;
     }
 

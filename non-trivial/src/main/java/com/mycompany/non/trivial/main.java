@@ -147,6 +147,8 @@ public class main {
         System.out.println("1-logut");
         System.out.println("2-request aride");
         System.out.println("3-show offers ");
+        System.out.println("4-deposit");
+        System.out.println("5-check balance");
         Scanner input = new Scanner(System.in);
         String in = input.next();
         if (in.equals("1")) {
@@ -161,7 +163,15 @@ public class main {
 
         } else if (in.equals("3")) {
             show_offers(user);
-            user_menu(user);//delete
+            user_menu(user);
+        }else if (in.equals("4")) {
+            System.out.println("enter ammount ");
+            float ammount=input.nextFloat();
+            deposit(ammount,user);
+            user_menu(user);
+        }else if (in.equals("5")) {
+            System.out.println("your balance is "+user.getBalance());
+            user_menu(user);
         } else {
             System.out.println("wrong choice");
             user_menu(user);
@@ -184,6 +194,8 @@ public class main {
         System.out.println("4-show users rating");
         System.out.println("5-add favourite area");
         System.out.println("6-show all requests for favourite areas");
+        System.out.println("7-deposit");
+        System.out.println("8-check balance");
         Scanner input = new Scanner(System.in);
         String in = input.next();
         if (in.equals("1")) {
@@ -202,6 +214,14 @@ public class main {
             driver_menu(driver);
         }else if (in.equals("6")) {
             show_all_requests("favourite",driver);
+            driver_menu(driver);
+        }else if (in.equals("7")) {
+            System.out.println("enter ammount ");
+            float ammount=input.nextFloat();
+            deposit(ammount,driver);
+            driver_menu(driver);
+        }else if (in.equals("8")) {
+            System.out.println("your balance is "+driver.getBalance());
             driver_menu(driver);
         }
         else {
@@ -254,6 +274,8 @@ public class main {
         System.out.println("6-Activate User");
         System.out.println("7-Show all rides");
         System.out.println("8-show event on ride");
+        System.out.println("9-add discount area ");
+        System.out.println("10-show discount areas");
         Scanner input = new Scanner(System.in);
         String in = input.next();
         if (in.equals("1")) {
@@ -281,6 +303,12 @@ public class main {
             System.out.println("enter ride number");
             int ride_number=input.nextInt();
             show_events_on_ride(ride_number);
+        }else if(in.equals("9")){
+            System.out.println("enter area");
+            String area=input.next();
+            add_discount_area(area);
+        }else if(in.equals("10")){
+            show_discount_areas();
         }
         else {
             System.out.println("wrong choice");
@@ -368,6 +396,22 @@ public class main {
             }
             counter++;
         }
+        admin_panal();
+    }
+    
+    
+    void add_discount_area(String area){
+        this.admin.getAdmindata().getAdmin_discount_areas().add(area);
+        System.out.println(area+" is added to discounts areas ");
+        admin_panal();
+    }
+    
+    void show_discount_areas(){
+        System.out.print("[ ");
+        for(String area:admin.getAdmindata().getAdmin_discount_areas()){
+            System.out.print(area+" , ");
+        }
+        System.out.println("]");
         admin_panal();
     }
     
@@ -478,6 +522,12 @@ public class main {
         driver.add_favourite_area(name);
     }
     
+    public void deposit(float ammount,person person){
+        person.deposit(ammount);
+        System.out.println("your balance now is "+person.getBalance());
+    }
+    
+    
     ////////////////////////////////
     
     /////////user//////////////////
@@ -531,10 +581,24 @@ public class main {
             System.out.println("wrong choice ");
             show_offers(user);
         }
+        double discount=0 ;
+        double ride_price=(user.getRide().getOffers().get(offer_number - 1).getSuggested_price());
+        if(admin.getAdmindata().getAdmin_discount_areas().contains(user.getRide().getDestenation())){
+            double discount_percent=0.1;
+            discount=discount_percent*ride_price;
+        }
+        double price_after_discount=user.getRide().getOffers().get(offer_number - 1).getSuggested_price()-discount;
+        if(user.getBalance()<price_after_discount){
+            System.out.println("You don't have enough money please depodit first");
+            user_menu(user);
+        }
         user.getRide().setDriver(user.getRide().getOffers().get(offer_number - 1).getDriver());
         user.getRide().getDriver().getDriverdata().getAccepted_offers().add(user.getRide());
         user.getRide().setStatus(true);/////////delete
         user.getRide().setPrice(user.getRide().getOffers().get(offer_number - 1).getSuggested_price());
+        
+        user.setBalance(user.getBalance()-price_after_discount);
+        user.getRide().getDriver().setBalance(user.getRide().getDriver().getBalance()+ride_price);
         for (driver driver : this.system.getData().getDrivers()) {
             driver.getDriverdata().getAll_requests().remove(user.getRide());
             if (driver.getDriverdata().getRequests_in_favourites().contains(user.getRide())) {

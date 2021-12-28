@@ -5,10 +5,18 @@ public abstract class person {
     private String password;
     private String number;
     private String email;
+    private double balance;
     protected boolean status=true;
     protected system system;
     protected notify notifications=new notify();///////////////////
+    
+    public double getBalance() {
+        return balance;
+    }
 
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
     public notify getNotifications() {
         return notifications;
     }
@@ -26,6 +34,7 @@ public abstract class person {
         this.number = number;
         this.email = email;
         this.system = system;
+        this.balance=0;
     }
     public boolean isStatus() {
         return status;
@@ -76,5 +85,8 @@ public abstract class person {
         this.system = system;
     }
 
+    public void deposit(double ammount){
+        this.balance+=ammount;
+    }
 
 }

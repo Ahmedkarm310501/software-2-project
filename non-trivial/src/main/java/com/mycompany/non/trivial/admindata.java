@@ -6,6 +6,16 @@ public class admindata {
     private ArrayList<driver> pending_drivers = new ArrayList();
     private ArrayList<person> suspended_users = new ArrayList();
     private ArrayList<ride> all_rides = new ArrayList();
+    private ArrayList<String> admin_discount_areas = new ArrayList();
+
+    public ArrayList<String> getAdmin_discount_areas() {
+        return admin_discount_areas;
+    }
+
+    public void setAdmin_discount_areas(ArrayList<String> admin_discount_areas) {
+        this.admin_discount_areas = admin_discount_areas;
+    }
+    
 
     public ArrayList<ride> getAll_rides() {
         return all_rides;
