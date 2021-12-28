@@ -7,6 +7,16 @@ public class admindata {
     private ArrayList<person> suspended_users = new ArrayList();
     private ArrayList<ride> all_rides = new ArrayList();
     private ArrayList<String> admin_discount_areas = new ArrayList();
+    private ArrayList<String>  public_holiday = new ArrayList();
+
+    public ArrayList<String> getPublic_holiday() {
+        return public_holiday;
+    }
+
+    public void setPublic_holiday(ArrayList<String> public_holiday) {
+        this.public_holiday = public_holiday;
+    }
+
 
     public ArrayList<String> getAdmin_discount_areas() {
         return admin_discount_areas;
@@ -43,7 +53,6 @@ public class admindata {
 
     public admindata() {
     }
-    
  
     
 }

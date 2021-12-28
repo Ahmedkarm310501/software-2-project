@@ -35,7 +35,10 @@ public abstract class person {
         this.email = email;
         this.system = system;
         this.balance=0;
+        
     }
+
+    
     public boolean isStatus() {
         return status;
     }

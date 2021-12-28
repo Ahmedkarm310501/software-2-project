@@ -13,6 +13,7 @@ public class ride {
     private driver driver;
     private ArrayList<offer> offers = new ArrayList();
     private ArrayList<event> events = new ArrayList();
+    private int passenger_num;
 
     public ArrayList<event> getEvents() {
         return events;
@@ -24,9 +25,18 @@ public class ride {
     public ride() {
     }
     
-    public ride(String source, String destenation) {
+    public ride(String source, String destenation,int passenger_num) {
         this.source = source;
         this.destenation = destenation;
+        this.passenger_num= passenger_num;
+    }
+
+    public int getPassenger_num() {
+        return passenger_num;
+    }
+
+    public void setPassenger_num(int passenger_num) {
+        this.passenger_num = passenger_num;
     }
         
     public float getRate() {

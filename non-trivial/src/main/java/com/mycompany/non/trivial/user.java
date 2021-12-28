@@ -1,22 +1,44 @@
  package com.mycompany.non.trivial;
 
+import java.util.ArrayList;
+
 
 
 public class user extends person {
 
     ride ride=new ride();/////////////////
+    private ArrayList<ride> rides=new ArrayList();
+     private String birthday;
+
 
     public user() {
     }
 
-    public user(String username, String password, String number, String email, system system) {
+    public user(String username, String password, String number, String email, String birthday,system system) {
         super(username, password, number, email, system);
+        this.birthday=birthday;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public ArrayList<ride> getRides() {
+        return rides;
+    }
+
+    public void setRides(ArrayList<ride> rides) {
+        this.rides = rides;
     }
 
     
-    public void request_aride(String source, String destination) {
+    public void request_aride(String source, String destination,int number_passengers) {
 
-        ride = new ride(source, destination);
+        ride = new ride(source, destination,number_passengers);
         ride.setUser(this);
         system.getAdminuser().getAdmindata().getAll_rides().add(ride);
         for (driver driver : this.system.getData().getDrivers()) {
