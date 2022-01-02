@@ -7,7 +7,17 @@ public class offer {
     private driver driver;
     private user user;
     private ride ride;
-    
+
+    public ArrayList<Boolean> getFlag() {
+        return flag;
+    }
+
+    public void setFlag(ArrayList<Boolean> flag) {
+        this.flag = flag;
+    }
+ private ArrayList<Boolean> flag = new ArrayList<>();
+
+  
 
     public ride getRide() {
         return ride;
@@ -17,34 +27,22 @@ public class offer {
         this.ride = ride;
     }
 
-    public offer() {
-
-    }
-
     public offer(float suggested_price, driver driver, user user) {
         this.suggested_price = suggested_price;
         this.driver = driver;
         this.user = user;
+        for(int i=0;i<user.getRide().getPassenger_num();i++)
+        {
+            flag.add(false);
+        
+        }
+         
     }
-
     public double getSuggested_price() {
 
         return suggested_price;        
     }
-    public void offer_cases(user user)
-    {
-         if(!this.ride.getOffers().contains(user.getRide().getOffers()))
-        {
-           suggested_price=suggested_price-suggested_price*0.1;
-            System.out.println("suggested price is " + suggested_price + "L.E");
-        
-        }
-         else
-         {
-            System.out.println("suggested price is " + suggested_price + "L.E");
-         }
-    
-    }
+//   
 
     public void setSuggested_price(double suggested_price) {
         this.suggested_price = suggested_price;
@@ -65,6 +63,8 @@ public class offer {
     public void setUser(user user) {
         this.user = user;
     }
+
+
 
 
 

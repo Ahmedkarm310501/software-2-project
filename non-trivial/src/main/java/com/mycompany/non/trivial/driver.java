@@ -7,6 +7,35 @@ public class driver extends person {
     private driverdata driverdata = new driverdata();
     private String driving_licence;
     private String national_id;
+    private String cuurent_location;
+    private boolean avalibilty=true;
+    private int Available_seats=4;
+
+    public int getAvailable_seats() {
+        return Available_seats;
+    }
+
+    public void setAvailable_seats(int Available_seats) {
+        this.Available_seats = Available_seats;
+    }
+
+    
+
+    public boolean isAvalibilty() {
+        return avalibilty;
+    }
+
+    public void setAvalibilty(boolean avalibilty) {
+        this.avalibilty = avalibilty;
+    }
+
+    public String getCuurent_location() {
+        return cuurent_location;
+    }
+
+    public void setCuurent_location(String cuurent_location) {
+        this.cuurent_location = cuurent_location;
+    }
 
     public driverdata getDriverdata() {
         return driverdata;
@@ -66,6 +95,11 @@ public class driver extends person {
 
     public void add_favourite_area(String name) {
         this.driverdata.getFavourite_areas().add(name);
+    }
+
+    @Override
+    public String toString() {
+        return "driver{" + '}';
     }
 
 }

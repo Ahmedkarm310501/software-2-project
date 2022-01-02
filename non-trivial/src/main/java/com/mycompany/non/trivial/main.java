@@ -29,7 +29,7 @@ public class main {
         Scanner input = new Scanner(System.in);
         int choice = input.nextInt();
         if (choice == 1) {
-            String username, password, number, email,birthday;
+            String username, password, number, email, birthday;
             System.out.println("enter username");
             username = input.next();
             System.out.println("enter password");
@@ -39,7 +39,7 @@ public class main {
             System.out.println("enter email");
             email = input.next();
             System.out.println("enter Brithday in format dd-MM");
-            birthday=input.next();
+            birthday = input.next();
 
             for (user per : system.getData().getUsers()) {
                 if (per.getEmail().equals(email)) {
@@ -48,7 +48,7 @@ public class main {
                 }
             }
 
-            user User = new user(username, password, number, email,birthday ,system);
+            user User = new user(username, password, number, email, birthday, system);
             system.getData().getUsers().add(User);
             System.out.println("User added please login");
             main_menu();
@@ -153,6 +153,7 @@ public class main {
         System.out.println("3-show offers ");
         System.out.println("4-deposit");
         System.out.println("5-check balance");
+        System.out.println("6-request multiple_ride");
         Scanner input = new Scanner(System.in);
         String in = input.next();
         if (in.equals("1")) {
@@ -162,9 +163,9 @@ public class main {
             String source = input.next();
             System.out.println("enter destenation");
             String destenation = input.next();
-            System.out.println("enter Number of Passengers");
-            int passenger_num = input.nextInt();
-            request_aride(source, destenation, user, passenger_num);
+//            System.out.println("enter Number of Passengers");
+//            int passenger_num = input.nextInt();
+            request_aride(source, destenation, user);
             user_menu(user);
 
         } else if (in.equals("3")) {
@@ -178,6 +179,16 @@ public class main {
         } else if (in.equals("5")) {
             System.out.println("your balance is " + user.getBalance());
             user_menu(user);
+        } else if (in.equals("6")) {
+            System.out.println("enter Source");
+            String source = input.next();
+            System.out.println("enter destenation");
+            String destenation = input.next();
+            System.out.println("enter Number of Passengers");
+            int passenger_num = input.nextInt();
+            request_aride2(source, destenation, user, passenger_num);
+            user_menu(user);
+
         } else {
             System.out.println("wrong choice");
             user_menu(user);
@@ -200,6 +211,8 @@ public class main {
         System.out.println("6-show all requests for favourite areas");
         System.out.println("7-deposit");
         System.out.println("8-check balance");
+        System.out.println("9-set current location");
+        System.out.println("10-set Available seats");
         Scanner input = new Scanner(System.in);
         String in = input.next();
         if (in.equals("1")) {
@@ -225,6 +238,16 @@ public class main {
             driver_menu(driver);
         } else if (in.equals("8")) {
             System.out.println("your balance is " + driver.getBalance());
+            driver_menu(driver);
+        } else if (in.equals("9")) {
+            System.out.println("enter current location ");
+            String location = input.next();
+            setCurrent_location(location, driver);
+            driver_menu(driver);
+        } else if (in.equals("10")) {
+            System.out.println("enter available seats ");
+            int seats = input.nextInt();
+            setAvailableSeats(seats, driver);
             driver_menu(driver);
         } else {
             System.out.println("wrong choice");
@@ -317,10 +340,9 @@ public class main {
             System.out.println("enter date");
             String date = input.next();
             add_discount_Holiday(date);
-        }  else if (in.equals("12")) {
+        } else if (in.equals("12")) {
             show_discount_Holiday();
-        } 
-        else {
+        } else {
             System.out.println("wrong choice");
             admin_panal();
         }
@@ -379,7 +401,13 @@ public class main {
     public void get_all_rides() {
         int counter = 1;
         for (ride ride : this.admin.getAdmindata().getAll_rides()) {
-            System.out.print("Ride " + counter + "by user " + ride.getUser().getUsername());
+            if (ride instanceof Mulit_ride) {
+                System.out.print("Ride " + counter + "by user " + ride.getUsers().get(0).getUsername());
+            } else {
+                System.out.print("Ride " + counter + "by user " + ride.getUser().getUsername());
+
+            }
+
             if (ride.getDriver() != null) {
                 System.out.print(" from driver " + ride.getDriver().getUsername());
             } else {
@@ -428,7 +456,8 @@ public class main {
         System.out.println("]");
         admin_panal();
     }
-void add_discount_Holiday(String date) {
+
+    void add_discount_Holiday(String date) {
         this.admin.getAdmindata().getPublic_holiday().add(date);
         System.out.println(date + " is added to discounts dates ");
         admin_panal();
@@ -442,6 +471,7 @@ void add_discount_Holiday(String date) {
         System.out.println("]");
         admin_panal();
     }
+
     //////////////////////////////////
     /////////driver/////////////////
     public void show_all_requests(String type, driver driver) {
@@ -450,7 +480,13 @@ void add_discount_Holiday(String date) {
             if (type.equals("all")) {
                 for (ride ride : driver.getDriverdata().getAll_requests()) {
                     System.out.println("===============================================");
-                    System.out.println("request " + counter + " by user " + ride.getUser().getUsername());
+                    if (ride instanceof Mulit_ride) {
+                        System.out.println("request " + counter + " by user " + ride.getUsers().get(0).getUsername() + "number of user" + ride.getPassenger_num());
+                    } else {
+                        System.out.println("request " + counter + " by user " + ride.getUser().getUsername() + "number of user" + ride.getPassenger_num());
+
+                    }
+
                     System.out.println(" from " + ride.getSource() + " to " + ride.getDestenation());
                     System.out.println("===============================================");
                     counter++;
@@ -459,7 +495,12 @@ void add_discount_Holiday(String date) {
                 for (ride ride : driver.getDriverdata().getRequests_in_favourites()) {
                     if (driver.getDriverdata().getFavourite_areas().contains(ride.getSource())) {
                         System.out.println("===============================================");
-                        System.out.println("request " + counter + " by user " + ride.getUser().getUsername());
+                        if (ride instanceof Mulit_ride) {
+                            System.out.println("request " + counter + " by user " + ride.getUsers().get(0).getUsername() + "number of user" + ride.getPassenger_num());
+                        } else {
+                            System.out.println("request " + counter + " by user " + ride.getUser().getUsername() + "number of user" + ride.getPassenger_num());
+
+                        }
                         System.out.println(" from " + ride.getSource() + " to " + ride.getDestenation());
                         System.out.println("===============================================");
                         counter++;
@@ -512,28 +553,53 @@ void add_discount_Holiday(String date) {
         Scanner input = new Scanner(System.in);
         float suggested_price = input.nextFloat();
         /////////////////////////////////
-        offer new_offer = new offer(suggested_price, driver, driver.getRide().getUser());
+        offer new_offer = null;
+        if (driver.getRide() instanceof Mulit_ride) {
+            new_offer = new offer(suggested_price, driver, driver.getRide().getUsers().get(0));
+        } else {
+            new_offer = new offer(suggested_price, driver, driver.getRide().getUser());
+
+        }
         ArrayList<offer> offers = driver.getRide().getOffers();
         offers.add(new_offer);
         driver.getRide().setOffers(offers);
+        driver.setAvalibilty(false);
+        ////////////////////////////////////////////////////////////
         String event_name = "Driver put a price";
         String event_time = get_time();
         ride ride = driver.getDriverdata().getAll_requests().get(ride_number - 1);
+        event event = null;
+        if (driver.getRide() instanceof Mulit_ride) {
+            event = new event(event_name, event_time, ride, driver.getUsername(), ride.getUsers().get(0).getUsername(), suggested_price);
+        } else {
+            event = new event(event_name, event_time, ride, driver.getUsername(), ride.getUser().getUsername(), suggested_price);
 
-        event event = new event(event_name, event_time, ride, driver.getUsername(), ride.getUser().getUsername(), suggested_price);
+        }
         int index = system.getAdminuser().getAdmindata().getAll_rides().indexOf(ride);
 
         system.getAdminuser().getAdmindata().getAll_rides().get(index).getEvents().add(event);
 
         System.out.println("please wait user to accept your offer");
         String message = "You have new offers";
-        driver.getRide().getUser().notifications.getNotification().add(message);
+        if (driver.getRide() instanceof Mulit_ride) {
+            for (user user : ride.getUsers()) {
+                user.notifications.getNotification().add(message);
+            }
+        } else {
+            driver.getRide().getUser().notifications.getNotification().add(message);
+        }
+
         driver_menu(driver);
     }
 
     public void show_users_rating(driver driver) {
+
         for (ride rate : driver.getDriverdata().getAccepted_offers()) {
-            System.out.println("User " + rate.getUser().getUsername() + " rating : " + rate.getRate());
+            if (driver.getRide() instanceof Mulit_ride) {
+                System.out.println("User " + rate.getUsers().get(0).getUsername() + " rating : " + rate.getRate());
+            } else {
+                System.out.println("User " + rate.getUser().getUsername() + " rating : " + rate.getRate());
+            }
         }
         driver_menu(driver);
     }
@@ -550,14 +616,37 @@ void add_discount_Holiday(String date) {
         System.out.println("your balance now is " + person.getBalance());
     }
 
-    ////////////////////////////////
-    /////////user//////////////////
-    public void request_aride(String source, String destination, user user, int passenger_num) {
-        user.request_aride(source, destination, passenger_num);
-        System.out.println("request added please wait any driver to accept your request");
+    public void setCurrent_location(String location, driver driver) {
+        driver.setCuurent_location(location);
+
     }
 
-   /* public void check_balance(user user, offer offer, double offer_num) {
+    public void setAvailableSeats(int seats, driver driver) {
+        driver.setAvailable_seats(seats);
+    }
+
+    ////////////////////////////////
+    /////////user//////////////////
+    public void request_aride(String source, String destination, user user) {
+        user.ride = new Single_ride(source, destination);
+        if (user.getRide().request_aride(source, destination, user, 1)) {
+            System.out.println("request added please wait any driver to accept your request");
+        } else {
+            System.out.println("No driver in this source area");
+        }
+    }
+
+    public void request_aride2(String source, String destination, user user, int num) {
+        user.ride = new Mulit_ride(source, destination, num);
+        if (user.getRide().request_aride(source, destination, user, num)) {
+            System.out.println("request added please wait any driver to accept your request");
+        } else {
+            System.out.println("No driver in this source area");
+        }
+    }
+
+
+    /* public void check_balance(user user, offer offer, double offer_num) {
         if (user.getBalance() >= offer.getSuggested_price()) {
             offer.setSuggested_price(offer.getSuggested_price() - offer.getSuggested_price() * offer_num);
             System.out.println("suggested price is " + offer.getSuggested_price() + "L.E");
@@ -568,37 +657,32 @@ void add_discount_Holiday(String date) {
         }
 
     }*/
-
     public double offer_cases(user user, offer offer) {
-       double discount=0;
+        double discount = 0;
         if (user.getRides().isEmpty()) {
             //check_balance(user, offer, 0.1);
-            discount+=0.1;
+            discount += 0.1;
             System.out.println("if  1");
         }
         if (user.getRide().getPassenger_num() == 2) {
-            discount+=0.05;
+            discount += 0.05;
             System.out.println("if  2");
         }
-        if(date1().equals(user.getBirthday()))
-        {
-          //check_balance(user, offer, 0.05);\
-            discount+=0.1;
+        if (date1().equals(user.getBirthday())) {
+            //check_balance(user, offer, 0.05);\
+            discount += 0.1;
             System.out.println("if  3");
         }
-        if((admin.getAdmindata().getPublic_holiday()).contains(date1())){ ////////does not enter in if . i add arraylist of Public_holiday  in admin 
-                                                                            ///and add a static holidays in it in admin 
-           //check_balance(user, offer, 0.05);
-           discount+=0.05;
-           System.out.println("if  4");
+        if ((admin.getAdmindata().getPublic_holiday()).contains(date1())) {
+            discount += 0.05;
+            System.out.println("if  4");
         }///////////////////////////////////////////////////////////////////////////
-        if(admin.getAdmindata().getAdmin_discount_areas().contains(user.getRide().getDestenation()))
-        {
-            discount+=0.1;
+        if (admin.getAdmindata().getAdmin_discount_areas().contains(user.getRide().getDestenation())) {
+            discount += 0.1;
             System.out.println("if  5");
-        
+
         }
-        return discount*offer.getSuggested_price();
+        return discount * offer.getSuggested_price();
     }
 
     public void show_offers(user user) {
@@ -607,14 +691,13 @@ void add_discount_Holiday(String date) {
             for (offer offer : user.getRide().getOffers()) {
                 System.out.println("===============================================");
                 System.out.println("offer " + counter + " by driver " + offer.getDriver().getUsername());
-                double total_discount=offer_cases(user,offer);
-                System.out.println("suggested price is " + (offer.getSuggested_price()-total_discount) + "L.E");
-                
-                ride r = new ride(user.getRide().getSource(), user.getRide().getDestenation(), user.getRide().getPassenger_num());
-                if (user.getBalance() >= offer.getSuggested_price()) {
-                    user.getRides().add(r);
-                }
+                double total_discount = offer_cases(user, offer);
+                System.out.println("suggested price is " + (offer.getSuggested_price() - total_discount) + "L.E");
 
+//                ride r = new ride(user.getRide().getSource(), user.getRide().getDestenation(), user.getRide().getPassenger_num());
+//                if (user.getBalance() >= offer.getSuggested_price()) {
+//                    user.getRides().add(r);
+//                }
                 System.out.println("driver rating is " + offer.getDriver().averege_rating());
                 System.out.println("================================================");
                 counter++;
@@ -653,31 +736,52 @@ void add_discount_Holiday(String date) {
             System.out.println("wrong choice ");
             show_offers(user);
         }
-        double discount = offer_cases(user,user.getRide().getOffers().get(offer_number-1));
-        double ride_price = (user.getRide().getOffers().get(offer_number - 1).getSuggested_price());//////<---we should add the same price of the offer not after discount
-        /*if (admin.getAdmindata().getAdmin_discount_areas().contains(user.getRide().getDestenation())) {///if driver offer 100 and user have discount 10% the balance of driver should be 100 not 90
-            double discount_percent = 0.1;
-            discount = discount_percent * ride_price;
-        }*/
+        double discount = offer_cases(user, user.getRide().getOffers().get(offer_number - 1));
+        double ride_price = (user.getRide().getOffers().get(offer_number - 1).getSuggested_price());
         double price_after_discount = user.getRide().getOffers().get(offer_number - 1).getSuggested_price() - discount;
         if (user.getBalance() < price_after_discount) {
             System.out.println("You don't have enough money please depodit first");
             user_menu(user);
         }
-        user.getRide().setDriver(user.getRide().getOffers().get(offer_number - 1).getDriver());
-        user.getRide().getDriver().getDriverdata().getAccepted_offers().add(user.getRide());
-        user.getRide().setStatus(true);/////////delete
-        user.getRide().setPrice(user.getRide().getOffers().get(offer_number - 1).getSuggested_price());
 
+        user.getRide().setDriver(user.getRide().getOffers().get(offer_number - 1).getDriver());
+        ////////////
+        user.getRide().getOffers().get(offer_number - 1).getFlag().add(true);
+        System.out.println(user.getRide().getOffers().get(offer_number - 1).getFlag().get(0));
+        int counter = 0;
+//        int index
+//         if(user.getRide().getOffers().isEmpty())
+//         {
+//             System.out.println("offer is emptyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+//         }
+
+        for (int i = 0; i < user.getRide().getPassenger_num(); i++) {
+            offer offer=user.getRide().getOffers().get(offer_number - 1);
+            if (offer.getFlag().get(i) == true) {
+                counter++;
+            }
+
+        }
+        if (counter == user.getRide().getPassenger_num()) {
+            user.getRide().getDriver().getDriverdata().getAccepted_offers().add(user.getRide());
+            user.getRide().setStatus(true);
+            user.getRide().setPrice(user.getRide().getOffers().get(offer_number - 1).getSuggested_price());
+            for (offer offer : user.getRide().getOffers()) {
+                offer.getDriver().setAvalibilty(true);
+
+            }
+            user.getRide().getOffers().clear();
+        }
         user.setBalance(user.getBalance() - price_after_discount);
         user.getRide().getDriver().setBalance(user.getRide().getDriver().getBalance() + ride_price);
+
         for (driver driver : this.system.getData().getDrivers()) {
             driver.getDriverdata().getAll_requests().remove(user.getRide());
             if (driver.getDriverdata().getRequests_in_favourites().contains(user.getRide())) {
                 driver.getDriverdata().getRequests_in_favourites().remove(user.getRide());
             }
         }
-        user.getRide().getOffers().clear();
+
         user.getNotifications().getNotification().clear();
         String message = "Your offer from " + user.getUsername() + " accepted ";
         user.getRide().getDriver().notifications.getNotification().add(message);
@@ -694,7 +798,6 @@ void add_discount_Holiday(String date) {
         event event2 = new event(event_name2, time2, user.getRide().getDriver().getUsername(), user.getUsername());
         int index2 = system.getAdminuser().getAdmindata().getAll_rides().indexOf(user.getRide());
         system.getAdminuser().getAdmindata().getAll_rides().get(index2).getEvents().add(event2);
-
         ////////////////////////////////////////
         String event_name3 = "Captain arrived to user destination";
         String time3 = get_time1();
@@ -732,15 +835,30 @@ void add_discount_Holiday(String date) {
         String d = date.toString();
         return d;
     }
-    String date1()
-    {
+
+    String date1() {
         String date = new SimpleDateFormat("dd-MM").format(new Date());
         return date;
-    
-    }
-    public static void main(String[] args) {
 
+    }
+
+    public static void main(String[] args) {
+        
         main main = new main();
+        user user1=new user("a","a","a","a","1-1",main.system);
+        user user2=new user("q","q","q","q","1-1",main.system);
+        user user3=new user("z","z","z","z","1-1",main.system);
+        
+        driver driver1=new driver("s","s","s","s","s","s",main.system);
+        driver driver2=new driver("d","d","d","d","d","d",main.system);
+        main.system.getData().getUsers().add(user1);
+        main.system.getData().getUsers().add(user2);
+        main.system.getData().getUsers().add(user3);
+        main.system.getData().getDrivers().add(driver1);
+        main.system.getData().getDrivers().add(driver2);
+        
+        
         main.main_menu();
     }
+
 }

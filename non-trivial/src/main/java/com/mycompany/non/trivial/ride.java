@@ -3,20 +3,39 @@ package com.mycompany.non.trivial;
 
 import java.util.ArrayList;
 
-public class ride {
-    private String source;
-    private String destenation;
+public abstract class ride {
+    public String source;
+    public String destenation;
     private double price;
-    private user user;
+
+   
+   private ArrayList<user> users = new ArrayList(); 
+   private user user;
+
+    public user getUser() {
+        return user;
+    }
+
+    public void setUser(user user) {
+        this.user = user;
+    }
     private boolean status=false;
     private float rate;
     private driver driver;
     private ArrayList<offer> offers = new ArrayList();
     private ArrayList<event> events = new ArrayList();
-    private int passenger_num;
+    public int passenger_num;
 
     public ArrayList<event> getEvents() {
         return events;
+    }
+
+    public ArrayList<user> getUsers() {
+        return users;
+    }
+
+    public void setUsers(ArrayList<user> users) {
+        this.users = users;
     }
 
     public void setEvents(ArrayList<event> events) {
@@ -25,11 +44,12 @@ public class ride {
     public ride() {
     }
     
-    public ride(String source, String destenation,int passenger_num) {
+    public ride(String source, String destenation) {
         this.source = source;
         this.destenation = destenation;
-        this.passenger_num= passenger_num;
+      
     }
+    
 
     public int getPassenger_num() {
         return passenger_num;
@@ -65,13 +85,13 @@ public class ride {
         this.offers = offers;
     }
 
-    public user getUser() {
-        return user;
-    }
-
-    public void setUser(user user) {
-        this.user = user;
-    }
+//    public user getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(user user) {
+//        this.user = user;
+//    }
 
     public driver getDriver() {
         return driver;
@@ -109,6 +129,13 @@ public class ride {
         this.price = price;
     }
 
+       abstract public boolean  request_aride(String source, String destination,user user,int passenger_num);
+        
+
+
+
+
+
 //    public void request_aride(user user, String source, String destination) {
 //
 //        ride ride = new ride(source, destination);
@@ -123,5 +150,15 @@ public class ride {
 //        }
 //        System.out.println("request added please wait any driver to accept your request");
 //    }
+
+    @Override
+    public String toString() {
+        return "ride{" + "source=" + source + ", destenation=" + destenation + ", price=" + price + '}';
+    }
+
+
+    
+
+   
 
 }

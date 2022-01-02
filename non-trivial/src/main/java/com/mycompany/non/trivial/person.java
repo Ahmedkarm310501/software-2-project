@@ -92,4 +92,9 @@ public abstract class person {
         this.balance+=ammount;
     }
 
+    @Override
+    public String toString() {
+        return "person{" + "username=" + username + ", email=" + email + '}';
+    }
+
 }
